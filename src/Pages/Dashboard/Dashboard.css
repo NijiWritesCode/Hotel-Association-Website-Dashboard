@@ -1,0 +1,173 @@
+/* =========================
+   DASHBOARD WRAPPER
+========================= */
+.dash-wrapper {
+  min-height: 100vh;
+  background: #f8f9fc; /* light background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+/* =========================
+   HEADER
+========================= */
+.dash-wrapper > header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3999;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   DASH MENU (stats boxes)
+========================= */
+.dash-wrapper > .dash-menu {
+  padding-top: 110px;
+  display: flex;
+  justify-content: space-around;
+  width: 95%;
+  margin-inline: auto;
+  margin-bottom: 40px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dash-wrapper > .dash-menu > .menu {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-wrapper > .dash-menu > .menu:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.dash-wrapper > .dash-menu > .menu h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.dash-wrapper > .dash-menu > .menu p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0077cc;
+}
+
+/* =========================
+   DASH ACTIONS (add buttons)
+========================= */
+.dash-wrapper > .dash-actions {
+  display: flex;
+  justify-content: space-around;
+  width: 95%;
+  margin-inline: auto;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dash-wrapper > .dash-actions > .actions {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-wrapper > .dash-actions > .actions:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.dash-wrapper > .dash-actions > .actions h2 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.dash-wrapper > .dash-actions > .actions > .icon {
+  cursor: pointer;
+  color: #0077cc;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.dash-wrapper > .dash-actions > .actions > .icon:hover {
+  color: #005fa3;
+  transform: scale(1.1);
+}
+
+/* =========================
+   NOTIFICATION
+========================= */
+.notification {
+  position: fixed;
+  top: 90px; /* always above header */
+  right: 20px;
+  z-index: 9999; /* ✅ ensures above modals */
+  min-width: 280px;
+  max-width: 350px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background: #28a745;
+}
+
+.notification.error {
+  background: #dc3545;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.notification-message {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.notification-close:hover {
+  opacity: 0.8;
+}
+
+/* Notification animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

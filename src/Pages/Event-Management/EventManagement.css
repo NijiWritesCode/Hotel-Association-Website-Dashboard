@@ -1,0 +1,291 @@
+/* src/Sub_Component/EventManagement/EventManagement.css */
+
+/* Structural Styles */
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc; /* var(--gray-50) */
+}
+
+.nav {
+  width: 100%;
+}
+
+/* Event Description Form Styles */
+label[for="hotel-name"] {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 24px;
+}
+
+label[for="hotel-name"] > div {
+  position: relative;
+  margin-top: 8px;
+}
+
+textarea[name="hotel-name"] {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  padding-right: 45px; /* Space for icon */
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #374151;
+  background-color: #ffffff;
+  resize: vertical;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+textarea[name="hotel-name"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+textarea[name="hotel-name"]:hover {
+  border-color: #d1d5db;
+}
+
+textarea[name="hotel-name"]::placeholder {
+  color: #9ca3af;
+}
+
+/* Icon styling */
+.in_icon_t {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #6b7280;
+  pointer-events: none;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Icon color change on textarea focus */
+textarea[name="hotel-name"]:focus + .in_icon {
+  color: #3b82f6;
+}
+
+/* Image Preview Container */
+.rev {
+  margin-top: 16px;
+  padding: 12px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.rev:hover {
+  border-color: #d1d5db;
+  background-color: #f3f4f6;
+}
+
+/* Preview Image */
+.rev img {
+  max-width: 100%;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease-in-out;
+}
+
+.rev img:hover {
+  transform: scale(1.02);
+}
+
+/* Event Display */
+.event-display {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.event-display h2 {
+  font-size: 1.75rem;
+  color: #1e293b; /* var(--gray-800) */
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Event Card Styles */
+.event-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0; /* var(--gray-200) */
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* var(--shadow-md) */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.event-image {
+  width: 100%;
+  height: 120px; /* Increased from 60px for larger images */
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.event-card h3 {
+  font-size: 1.25rem;
+  color: #1e293b; /* var(--gray-800) */
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.event-card p {
+  font-size: 0.95rem;
+  color: #475569; /* var(--gray-600) */
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.edit-btn, .delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #4da8da; /* var(--primary-blue) */
+}
+
+.delete-btn {
+  color: #ef4444; /* var(--red-500) */
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rev {
+    margin-top: 12px;
+    padding: 8px;
+  }
+
+  .rev img {
+    max-height: 150px;
+  }
+
+  .event-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .event-image {
+    height: 100px; /* Slightly smaller for mobile */
+  }
+}
+
+@media (max-width: 640px) {
+  label[for="hotel-name"] {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  
+  textarea[name="hotel-name"] {
+    min-height: 100px;
+    padding: 10px 12px;
+    padding-right: 40px;
+    font-size: 14px;
+  }
+  
+  .in_icon_t {
+    top: 10px;
+    right: 10px;
+  }
+
+  .event-image {
+    height: 80px; /* Further reduced for smaller screens */
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .home {
+    background: #111827; /* var(--gray-900) */
+  }
+
+  label[for="hotel-name"] {
+    color: #f9fafb;
+  }
+  
+  textarea[name="hotel-name"] {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  textarea[name="hotel-name"]:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+  
+  textarea[name="hotel-name"]:hover {
+    border-color: #4b5563;
+  }
+  
+  textarea[name="hotel-name"]::placeholder {
+    color: #6b7280;
+  }
+  
+  .in_icon {
+    color: #9ca3af;
+  }
+  
+  textarea[name="hotel-name"]:focus + .in_icon {
+    color: #60a5fa;
+  }
+  
+  .rev {
+    border-color: #374151;
+    background-color: #1f2937;
+  }
+  
+  .rev:hover {
+    border-color: #4b5563;
+    background-color: #111827;
+  }
+
+  .event-card {
+    background: #1f2937; /* var(--gray-800) */
+    border-color: #374151; /* var(--gray-700) */
+  }
+
+  .event-card h3 {
+    color: #f9fafb; /* var(--gray-50) */
+  }
+
+  .event-card p {
+    color: #9ca3af; /* var(--gray-400) */
+  }
+}
