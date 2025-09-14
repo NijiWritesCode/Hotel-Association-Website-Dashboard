@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../Components/Navbar/Navbar';
 import { Calendar, FileText, Image, CheckCircle, XCircle, X, Trash2, Edit2 } from 'lucide-react';
 import './Advert.css';
-import { db } from '../../firebase_config.jsx';
+import { db } from '../../Firebase_config';
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { ScrollRestoration } from 'react-router-dom';
-import { db } from '../../firebase_config.jsx';
 
 const ConfirmationModal = ({ isOpen, onConfirm, onCancel, message }) => {
   if (!isOpen) return null;
