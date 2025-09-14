@@ -5,6 +5,7 @@ import './Advert.css';
 import { db } from '../../firebase_config.jsx';
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { ScrollRestoration } from 'react-router-dom';
+import { db } from '../../firebase_config.jsx';
 
 const ConfirmationModal = ({ isOpen, onConfirm, onCancel, message }) => {
   if (!isOpen) return null;
