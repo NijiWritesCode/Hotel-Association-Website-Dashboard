@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../Components/Navbar/Navbar';
-import { Calendar, FileText, Image, CheckCircle, XCircle, X, Trash2, Edit } from 'lucide-react';
-import './EventManagement.css';
-import { db } from '../../Firebase_config.jsx';
-import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { ScrollRestoration } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../Components/Navbar/Navbar";
+import {
+  Calendar,
+  FileText,
+  Image,
+  CheckCircle,
+  XCircle,
+  X,
+  Trash2,
+  Edit,
+} from "lucide-react";
+import "./EventManagement.css";
+import { db } from "../../Firebase_config.jsx";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { ScrollRestoration } from "react-router-dom";
 
 const ConfirmationModal = ({ isOpen, onConfirm, onCancel, message }) => {
   if (!isOpen) return null;
@@ -31,14 +48,21 @@ const EventCard = ({ event, onDelete, onEdit }) => {
     <div className="event-card">
       {event.imageUrl && (
         <img
-          src={event.imageUrl.startsWith("data:image") ? event.imageUrl : URL.createObjectURL(event.imageUrl)}
+          src={event.imageUrl} // ✅ Always use the stored string
           alt={`${event.title} image`}
           className="event-image"
         />
       )}
       <h3>{event.title}</h3>
-      <p><strong>Description:</strong> {event.description}</p>
-      <p><strong>Created:</strong> {event.createdAt ? new Date(event.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</p>
+      <p>
+        <strong>Description:</strong> {event.description}
+      </p>
+      <p>
+        <strong>Created:</strong>{" "}
+        {event.createdAt
+          ? new Date(event.createdAt.seconds * 1000).toLocaleDateString()
+          : "N/A"}
+      </p>
       <div className="card-actions">
         <button
           onClick={() => onEdit(event)}
@@ -59,7 +83,6 @@ const EventCard = ({ event, onDelete, onEdit }) => {
   );
 };
 
-
 const EventManagement = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [notification, setNotification] = useState(null);
@@ -68,18 +91,18 @@ const EventManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
   });
   const [editingId, setEditingId] = useState(null);
   const [modal, setModal] = useState({
     isOpen: false,
     action: null,
-    message: '',
+    message: "",
     onConfirm: () => {},
   });
 
-  const collectionRef = collection(db, 'Events');
+  const collectionRef = collection(db, "Events");
 
   const convertImageToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -95,10 +118,10 @@ const EventManagement = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage({ file, url: imageUrl });
-      console.log('EventManagement: Image selected', imageUrl);
+      console.log("EventManagement: Image selected", imageUrl);
     } else {
       setSelectedImage(null);
-      console.log('EventManagement: No image selected');
+      console.log("EventManagement: No image selected");
     }
   };
 
@@ -124,7 +147,7 @@ const EventManagement = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -137,18 +160,18 @@ const EventManagement = () => {
       }));
       setEvents(eventList);
       setLoading(false);
-      console.log('EventManagement: Fetched events', eventList);
+      console.log("EventManagement: Fetched events", eventList);
     } catch (error) {
-      console.error('EventManagement: Error fetching events:', error);
-      setError('Failed to fetch events. Please try again.');
+      console.error("EventManagement: Error fetching events:", error);
+      setError("Failed to fetch events. Please try again.");
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    console.log('EventManagement: Mounting component');
+    console.log("EventManagement: Mounting component");
     fetchEvents();
-    return () => console.log('EventManagement: Unmounting component');
+    return () => console.log("EventManagement: Unmounting component");
   }, []);
 
   const addEvent = async (e) => {
@@ -156,7 +179,7 @@ const EventManagement = () => {
     setIsSubmitting(true);
 
     if (!formData.title || !formData.description) {
-      showNotification('error', 'Please fill in all required fields');
+      showNotification("error", "Please fill in all required fields");
       setIsSubmitting(false);
       return;
     }
@@ -164,7 +187,9 @@ const EventManagement = () => {
     const eventData = {
       title: formData.title,
       description: formData.description,
-      imageUrl: selectedImage?.file ? await convertImageToBase64(selectedImage.file) : null,
+      imageUrl: selectedImage?.file
+        ? await convertImageToBase64(selectedImage.file)
+        : null,
     };
 
     if (editingId) {
@@ -172,27 +197,35 @@ const EventManagement = () => {
 
       setModal({
         isOpen: true,
-        action: 'update',
+        action: "update",
         message: `Are you sure you want to update the event "${formData.title}"?`,
         onConfirm: async () => {
           try {
-            const docRef = doc(db, 'Events', editingId);
+            const docRef = doc(db, "Events", editingId);
             await updateDoc(docRef, eventData);
-            showNotification('success', 'Event updated successfully!');
+            showNotification("success", "Event updated successfully!");
             setEditingId(null);
             setFormData({
-              title: '',
-              description: '',
+              title: "",
+              description: "",
             });
             setSelectedImage(null);
             scrollToTop();
             fetchEvents();
           } catch (error) {
-            console.error('EventManagement: Error updating event:', error);
-            showNotification('error', 'Failed to update event. Please try again.');
+            console.error("EventManagement: Error updating event:", error);
+            showNotification(
+              "error",
+              "Failed to update event. Please try again."
+            );
           } finally {
             setIsSubmitting(false);
-            setModal({ isOpen: false, action: null, message: '', onConfirm: () => {} });
+            setModal({
+              isOpen: false,
+              action: null,
+              message: "",
+              onConfirm: () => {},
+            });
           }
         },
       });
@@ -203,17 +236,17 @@ const EventManagement = () => {
 
       try {
         await addDoc(collectionRef, eventData);
-        showNotification('success', 'Event added successfully!');
+        showNotification("success", "Event added successfully!");
         setFormData({
-          title: '',
-          description: '',
+          title: "",
+          description: "",
         });
         setSelectedImage(null);
         scrollToTop();
         fetchEvents();
       } catch (error) {
-        console.error('EventManagement: Error adding event:', error);
-        showNotification('error', 'Failed to add event. Please try again.');
+        console.error("EventManagement: Error adding event:", error);
+        showNotification("error", "Failed to add event. Please try again.");
       } finally {
         setIsSubmitting(false);
       }
@@ -223,18 +256,26 @@ const EventManagement = () => {
   const deleteEvent = (id, title) => {
     setModal({
       isOpen: true,
-      action: 'delete',
+      action: "delete",
       message: `Are you sure you want to delete the event "${title}"?`,
       onConfirm: async () => {
         try {
-          await deleteDoc(doc(db, 'Events', id));
-          showNotification('success', 'Event deleted successfully!');
+          await deleteDoc(doc(db, "Events", id));
+          showNotification("success", "Event deleted successfully!");
           fetchEvents();
         } catch (error) {
-          console.error('EventManagement: Error deleting event:', error);
-          showNotification('error', 'Failed to delete event. Please try again.');
+          console.error("EventManagement: Error deleting event:", error);
+          showNotification(
+            "error",
+            "Failed to delete event. Please try again."
+          );
         } finally {
-          setModal({ isOpen: false, action: null, message: '', onConfirm: () => {} });
+          setModal({
+            isOpen: false,
+            action: null,
+            message: "",
+            onConfirm: () => {},
+          });
         }
       },
     });
@@ -251,7 +292,7 @@ const EventManagement = () => {
   };
 
   const closeModal = () => {
-    setModal({ isOpen: false, action: null, message: '', onConfirm: () => {} });
+    setModal({ isOpen: false, action: null, message: "", onConfirm: () => {} });
     setIsSubmitting(false);
   };
 
@@ -265,12 +306,14 @@ const EventManagement = () => {
         {notification && (
           <div className={`notification ${notification.type}`}>
             <div className="notification-content">
-              {notification.type === 'success' ? (
+              {notification.type === "success" ? (
                 <CheckCircle size={20} className="notification-icon" />
               ) : (
                 <XCircle size={20} className="notification-icon" />
               )}
-              <span className="notification-message">{notification.message}</span>
+              <span className="notification-message">
+                {notification.message}
+              </span>
               <button
                 className="notification-close"
                 onClick={dismissNotification}
@@ -291,7 +334,7 @@ const EventManagement = () => {
 
         <div className="exec-form">
           <div className="exec-form-container">
-            <h2>{editingId ? 'Edit Event' : 'Add a New Event'}</h2>
+            <h2>{editingId ? "Edit Event" : "Add a New Event"}</h2>
 
             <div className="exec-form-fields">
               <label htmlFor="title" className="form-label">
@@ -347,7 +390,7 @@ const EventManagement = () => {
               <div className="image-preview">
                 <span>Selected Image Preview</span>
                 <img
-                  src={selectedImage.url}
+                  src={selectedImage.url} // ✅ Always safe
                   alt="Selected event image"
                   className="preview-image"
                 />
@@ -355,15 +398,25 @@ const EventManagement = () => {
             )}
 
             <div className="btn">
-              <button onClick={addEvent} className="submit-btn" disabled={isSubmitting}>
-                {isSubmitting ? (editingId ? 'Updating...' : 'Adding...') : (editingId ? 'Update' : 'Add')}
+              <button
+                onClick={addEvent}
+                className="submit-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? editingId
+                    ? "Updating..."
+                    : "Adding..."
+                  : editingId
+                  ? "Update"
+                  : "Add"}
               </button>
               {editingId && (
                 <button
                   onClick={() => {
                     setFormData({
-                      title: '',
-                      description: '',
+                      title: "",
+                      description: "",
                     });
                     setSelectedImage(null);
                     setEditingId(null);
